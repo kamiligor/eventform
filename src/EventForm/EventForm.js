@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import DatePicker from 'react-datepicker';
+import { Button, TextField } from '@material-ui/core'
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 class EventForm extends Component {
   state = {
@@ -24,32 +26,50 @@ class EventForm extends Component {
   render() {
     return (
       <form>
-        <input 
-          type="text"
-          name="firstName"
-          value={this.state.firstName} 
-          placeholder="First name"
-          onChange={this.handleInput}
-        />
-        <input 
-          type="text" 
-          name="lastName"
-          value={this.state.lastName} 
-          placeholder="Last name"
-          onChange={this.handleInput}
-        />
-        <input 
-          type="email" 
-          name="email"
-          value={this.state.email} 
-          placeholder="Email"
-          onChange={this.handleInput}
-        />
-        <DatePicker 
-          selected={this.state.eventDate}
-          onChange={this.handleChange}
-        />
-        <button type="submit">Submit</button>
+        <div className="form__main">
+          <TextField
+            name="firstName"
+            value={this.state.firstName}
+            onChange={this.handleInput}
+            id="firstName"
+            label="First name"
+            variant="outlined"
+          />
+          <TextField
+            name="lastName"
+            value={this.state.lastName}
+            onChange={this.handleInput}
+            id="lastName"
+            label="Last name"
+            variant="outlined"
+          />
+          <TextField
+            name="email"
+            value={this.state.email}
+            onChange={this.handleInput}
+            id="email"
+            label="Email"
+            variant="outlined"
+          />
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              autoOk
+              name="eventDate"
+              inputVariant="outlined"
+              format="dd/MM/yyyy"
+              id="date-picker-inline"
+              label="Event date"
+              value={this.state.eventDate}
+              onChange={this.handleEventDate}
+            />
+          </MuiPickersUtilsProvider>
+        </div>
+        <div>
+          <Button type="submit" variant="contained" color="primary">
+            Submit
+          </Button>
+        </div>
       </form>
     );
   }
