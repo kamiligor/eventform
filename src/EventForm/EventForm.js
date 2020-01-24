@@ -38,7 +38,7 @@ class EventForm extends Component {
 
   handleEventDate = date => {
     this.setState({
-      eventDate: date
+      eventDate: {value: date}
     })
   }
 
