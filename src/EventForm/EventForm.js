@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button, TextField } from '@material-ui/core'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import axios from '../axios-events';
 
 class EventForm extends Component {
   state = {
@@ -56,14 +57,34 @@ class EventForm extends Component {
     this.setState({[name]: field})
   }
   
+  saveEvent = (eventData) => {
+    //submit form
+    //todo:loading icon 
+    console.log('Loading...');
+    axios.post('/create', eventData)
+      .then(response => {
+        console.log('response',response);
+        //todo:hide loading icon
+        //tood:show thankyou message
+      } )
+      .catch(error => {
+        console.log('error',error);
+        //todo:show error
+      });
+  }
+  
   handleSubmit = e => {
-    
-    if( this.validateAllFields() ) { 
-      //submit form
-      return true;
-    }
     e.preventDefault();
     
+    if( this.validateAllFields() ) { 
+      const eventData = {
+        firstName: this.state.firstName.value,
+        lastName: this.state.lastName.value,
+        email: this.state.email.value,
+        eventDate: this.state.eventDate.value,
+      }
+      this.saveEvent(eventData);
+    }
   }
   
   validateField = (fieldName, fieldValue = '') => {
