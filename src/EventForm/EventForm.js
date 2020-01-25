@@ -2,17 +2,16 @@ import React, { Component } from 'react'
 import { Button, TextField } from '@material-ui/core'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import axios from '../axios-events';
+import { connect } from 'react-redux';
+import { 
+  saveEvent, 
+  updateTextfieldValue, 
+  updateDateValue, 
+  updateFieldError
+} from '../store/actions';
+
 
 class EventForm extends Component {
-  state = {
-    firstName: { value: ''},
-    lastName: { value: ''},
-    email: {value: ''},
-    eventDate: {
-      value: new Date(),
-    }
-  }
 
   config = {
     firstName: {
@@ -37,9 +36,7 @@ class EventForm extends Component {
   }
 
   handleEventDate = date => {
-    this.setState({
-      eventDate: {value: date}
-    })
+    this.props.updateDateValue(date);
   }
 
   handleBlur = e => {
@@ -51,75 +48,48 @@ class EventForm extends Component {
   handleInput = e => {
     const name = e.target.name;
     const value = e.target.value;
-  
-    // implicitly clear all other state properties (showError, msg, error)
-    const field = { value }
-    this.setState({[name]: field})
-  }
-  
-  saveEvent = (eventData) => {
-    //submit form
-    //todo:loading icon 
-    console.log('Loading...');
-    axios.post('/create', eventData)
-      .then(response => {
-        console.log('response',response);
-        //todo:hide loading icon
-        //tood:show thankyou message
-      } )
-      .catch(error => {
-        console.log('error',error);
-        //todo:show error
-      });
+    this.props.updateTextfieldValue(name, value);
   }
   
   handleSubmit = e => {
     e.preventDefault();
-    
+    console.log(this.props.firstName.value)
     if( this.validateAllFields() ) { 
       const eventData = {
-        firstName: this.state.firstName.value,
-        lastName: this.state.lastName.value,
-        email: this.state.email.value,
-        eventDate: this.state.eventDate.value,
+        firstName: this.props.firstName.value,
+        lastName: this.props.lastName.value,
+        email: this.props.email.value,
+        eventDate: this.props.eventDate.value,
       }
-      this.saveEvent(eventData);
+      this.props.saveEvent(eventData);
     }
   }
   
   validateField = (fieldName, fieldValue = '') => {
     const validationRules = this.config[fieldName].validationRules;
 
-    const err  = {
-      error: false,
-      msg: '',
-    }
+    let error = false;
+    let msg = '';
 
     if ( validationRules.email && !this.emailIsValid(fieldValue)) {
-      err.error = true;
-      err.msg = 'Email is incorrect.';
+      error = true;
+      msg = 'Email is incorrect.';
     }
 
     if( validationRules.required && fieldValue === '' ) {
-      err.error = true;
-      err.msg = 'This field is required.';
+      error = true;
+      msg = 'This field is required.';
     }
 
-    this.setState(prevState => {
-      const field = {...prevState[fieldName]};
-      field.error = err.error;
-      field.msg = err.msg;
-        
-      return { [fieldName]: field }
-    });
-
-    return !err.error;
+    this.props.updateFieldError(fieldName, error, msg);
+    
+    return !error;
   }
 
   validateAllFields = () => {
     let pass = true
     for( let fieldName in this.config) {
-      if( !this.validateField(fieldName, this.state[fieldName].value) ) {
+      if( !this.validateField(fieldName, this.props[fieldName].value) ) {
         pass = false
       }
     }
@@ -135,11 +105,11 @@ class EventForm extends Component {
         <TextField
           key={fieldName}
           name={fieldName}
-          value={this.state[fieldName].value}
+          value={this.props[fieldName].value}
           onChange={this.handleInput}
           onBlur={this.handleBlur}
-          error={this.state[fieldName].error}
-          helperText={this.state[fieldName].msg}
+          error={this.props[fieldName].error}
+          helperText={this.props[fieldName].msg}
           id={fieldName}
           label={this.config[fieldName].label}
           variant="outlined"
@@ -160,7 +130,7 @@ class EventForm extends Component {
               format="dd/MM/yyyy"
               id="date-picker-inline"
               label="Event date"
-              value={this.state.eventDate.value}
+              value={this.props.eventDate.value}
               onChange={this.handleEventDate}
             />
           </MuiPickersUtilsProvider>
@@ -175,4 +145,25 @@ class EventForm extends Component {
   }
 }
 
-export default EventForm;
+const mapStateToProps = state => {
+  return {
+    firstName: state.firstName,
+    lastName: state.lastName,
+    email: state.email,
+    eventDate: state.eventDate,
+    error: state.error,
+    loading: state.loading,
+    loaded: state.loaded,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    saveEvent: (eventData) => dispatch(saveEvent(eventData)),
+    updateTextfieldValue: (fieldName, fieldValue) => dispatch(updateTextfieldValue(fieldName, fieldValue)),
+    updateDateValue: (date) => dispatch(updateDateValue(date)),
+    updateFieldError: (fieldName, error, msg) => dispatch(updateFieldError(fieldName, error, msg)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventForm);
