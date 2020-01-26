@@ -9,6 +9,7 @@ import {
   updateDateValue, 
   updateFieldError
 } from '../store/actions';
+import Spinner from '../Spinner/Spinner';
 
 
 class EventForm extends Component {
@@ -135,10 +136,11 @@ class EventForm extends Component {
             />
           </MuiPickersUtilsProvider>
         </div>
-        <div>
+        <div className="form__footer">
           <Button type="submit" variant="contained" color="primary">
             Submit
           </Button>
+          {this.props.loading ? <Spinner /> : null}
         </div>
       </form>
     );

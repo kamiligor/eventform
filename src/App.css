@@ -19,6 +19,20 @@ h1 {
 .form__main {
   display: flex;  
 }
+.form__footer {
+  position: relative;
+  padding-bottom: 60px;
+}
+.form__footer .Spinner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 50px;
+}
+.Spinner img {
+  max-height: 100%;
+}
 
 @media(max-width: 767px) {
   .App .MuiFormControl-root {
