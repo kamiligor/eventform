@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './EventForm.scss';
 import { Button, TextField } from '@material-ui/core'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -118,8 +119,8 @@ class EventForm extends Component {
       )
     }
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div className="form__main">
+      <form onSubmit={this.handleSubmit} className="EventForm">
+        <div className="EventForm__main">
           {textFields}
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
@@ -136,7 +137,7 @@ class EventForm extends Component {
             />
           </MuiPickersUtilsProvider>
         </div>
-        <div className="form__footer">
+        <div className="EventForm__footer">
           <Button type="submit" variant="contained" color="primary">
             Submit
           </Button>

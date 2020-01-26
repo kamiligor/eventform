@@ -1,0 +1,29 @@
+.EventForm {
+  &__main {
+    display: flex;
+    @media(max-width: 767px) {
+      flex-wrap: wrap;
+    }
+  }
+  &__footer {
+    position: relative;
+    padding-bottom: 60px;
+  }
+  .MuiFormControl-root {
+    margin: 20px 10px;
+    @media(max-width: 767px) {
+      margin: 10px;
+      width: calc(50% - 20px);
+    }
+    @media(max-width: 375px) {
+      width: 100%
+    }
+  }
+  .Spinner {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 50px;
+  }
+}
