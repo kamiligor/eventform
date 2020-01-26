@@ -2,7 +2,7 @@ import React from 'react';
 import './App.scss';
 import EventForm from './EventForm/EventForm';
 
-function App() {
+function App(props) {
   return (
     <div className="App">
       <main className="App__main">

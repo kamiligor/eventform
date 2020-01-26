@@ -8,9 +8,11 @@ import {
   saveEvent, 
   updateTextfieldValue, 
   updateDateValue, 
-  updateFieldError
+  updateFieldError,
+  resetForm
 } from '../store/actions';
 import Spinner from '../Spinner/Spinner';
+import Info from '../Info/Info';
 
 
 class EventForm extends Component {
@@ -119,6 +121,7 @@ class EventForm extends Component {
       )
     }
     return (
+      !this.props.loaded ? (
       <form onSubmit={this.handleSubmit} className="EventForm">
         <div className="EventForm__main">
           {textFields}
@@ -144,6 +147,13 @@ class EventForm extends Component {
           {this.props.loading ? <Spinner /> : null}
         </div>
       </form>
+      )
+      :
+      <Info>
+        <p>Thank You! You have been attached to the guest list.</p>
+        <Button type="submit" color="primary" onClick={this.props.resetForm}>Back</Button>
+      </Info>
+      
     );
   }
 }
@@ -166,6 +176,7 @@ const mapDispatchToProps = dispatch => {
     updateTextfieldValue: (fieldName, fieldValue) => dispatch(updateTextfieldValue(fieldName, fieldValue)),
     updateDateValue: (date) => dispatch(updateDateValue(date)),
     updateFieldError: (fieldName, error, msg) => dispatch(updateFieldError(fieldName, error, msg)),
+    resetForm: () => dispatch(resetForm()),
   }
 }
 

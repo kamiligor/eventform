@@ -60,3 +60,9 @@ export const updateFieldError = (fieldName, error, msg) => {
         msg,
     };
 };
+
+export const resetForm = () => {
+    return {
+        type: actionTypes.RESET_FORM,
+    };
+};

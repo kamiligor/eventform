@@ -62,6 +62,10 @@ const updateFieldError = (state, action) => {
   }
 }
 
+const resetForm = () => {
+  return initialState
+}
+
 const reducer = (state = initialState, action) => {
   switch(action.type) {
     case actionTypes.SAVE_EVENT_START: return saveEventStart(state, action);
@@ -70,6 +74,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.UPDATE_TEXTFIELD_VALUE: return updateTextfieldValue(state, action);
     case actionTypes.UPDATE_DATE_VALUE: return updateDateValue(state, action);
     case actionTypes.UPDATE_FIELD_ERROR: return updateFieldError(state, action);
+    case actionTypes.RESET_FORM: return resetForm();
 
     default:
       return state;
