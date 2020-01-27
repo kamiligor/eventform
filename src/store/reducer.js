@@ -58,7 +58,8 @@ const updateFieldError = (state, action) => {
       ...state[action.fieldName],
       error: action.error,
       msg: action.msg
-    }
+    },
+    loading: false
   }
 }
 

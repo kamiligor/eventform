@@ -57,7 +57,6 @@ class EventForm extends Component {
   
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.props.firstName.value)
     if( this.validateAllFields() ) { 
       const eventData = {
         firstName: this.props.firstName.value,
@@ -121,7 +120,7 @@ class EventForm extends Component {
       )
     }
     const errorMessage = this.props.error ? (
-      <Info type="error"><p>Something went wrong, please, try again later.</p></Info>
+      <Info type="error">Something went wrong, please, try again later.</Info>
       ) : null
     return (
       !this.props.loaded ?
@@ -140,6 +139,8 @@ class EventForm extends Component {
               label="Event date"
               value={this.props.eventDate.value}
               onChange={this.handleEventDate}
+              error={this.props.eventDate.error}
+              helperText={this.props.eventDate.msg}
             />
           </MuiPickersUtilsProvider>
         </div>
@@ -154,7 +155,7 @@ class EventForm extends Component {
       : 
       <>
         <Info type="success">
-          Thank You! You have been attached to the guest list.
+          Thank You! You have been added to the guest list.
         </Info>
         <Button type="submit" color="primary" onClick={this.props.resetForm}>Back</Button>
       </>

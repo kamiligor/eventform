@@ -6,7 +6,7 @@ function App(props) {
   return (
     <div className="App">
       <main className="App__main">
-        <h1>Event Registration</h1>
+        <h1>Registration</h1>
         <EventForm />
       </main>
     </div>
