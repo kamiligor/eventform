@@ -1,0 +1,18 @@
+$green: #2ad477;
+$red: #c91b00;
+
+.Info {
+  $p: &;
+  margin: 0 0 20px;
+  &__container {
+    display: inline-block;
+    max-width: 620px;
+    border-bottom: 5px solid transparent;
+    #{$p}--success & {
+      border-color: $green;
+    }
+    #{$p}--error & {
+      border-color: $red;
+    }
+  }
+}

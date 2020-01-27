@@ -120,8 +120,11 @@ class EventForm extends Component {
         />
       )
     }
+    const errorMessage = this.props.error ? (
+      <Info type="error"><p>Something went wrong, please, try again later.</p></Info>
+      ) : null
     return (
-      !this.props.loaded ? (
+      !this.props.loaded ?
       <form onSubmit={this.handleSubmit} className="EventForm">
         <div className="EventForm__main">
           {textFields}
@@ -141,19 +144,20 @@ class EventForm extends Component {
           </MuiPickersUtilsProvider>
         </div>
         <div className="EventForm__footer">
+          {errorMessage}
           <Button type="submit" variant="contained" color="primary">
             Submit
           </Button>
           {this.props.loading ? <Spinner /> : null}
         </div>
       </form>
-      )
-      :
-      <Info>
-        <p>Thank You! You have been attached to the guest list.</p>
+      : 
+      <>
+        <Info type="success">
+          Thank You! You have been attached to the guest list.
+        </Info>
         <Button type="submit" color="primary" onClick={this.props.resetForm}>Back</Button>
-      </Info>
-      
+      </>
     );
   }
 }
