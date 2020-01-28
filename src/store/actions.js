@@ -1,18 +1,18 @@
 import * as actionTypes from './actionTypes';
 import axios from '../axios-events';
 
-const saveEventStart = () => {
+export const saveEventStart = () => {
     return {
         type: actionTypes.SAVE_EVENT_START
     };
 };
-const saveEventSuccess = (post) => {
+export const saveEventSuccess = (post) => {
   return {
       type: actionTypes.SAVE_EVENT_SUCCESS,
       post,
   };
 }
-const saveEventFail = error => {
+export const saveEventFail = error => {
     return {
         type: actionTypes.SAVE_EVENT_FAIL,
         error,
@@ -22,7 +22,7 @@ const saveEventFail = error => {
 export const saveEvent = eventData => {
   return dispatch => {
     dispatch(saveEventStart());
-    axios.post('/create', eventData)
+    return axios.post('/create', eventData)
     .then(res => {
       dispatch(saveEventSuccess(res.data));
     } )
