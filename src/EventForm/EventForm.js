@@ -14,7 +14,6 @@ import {
 import Spinner from '../Spinner/Spinner';
 import Info from '../Info/Info';
 
-
 class EventForm extends Component {
 
   config = {
