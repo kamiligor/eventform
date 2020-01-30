@@ -1,8 +1,8 @@
-import React from 'react';
-import './App.scss';
-import EventForm from './EventForm/EventForm';
+import React from 'react'
+import './App.scss'
+import EventForm from './EventForm/EventForm'
 
-function App(props) {
+function App() {
   return (
     <div className="App">
       <main className="App__main">
@@ -10,7 +10,7 @@ function App(props) {
         <EventForm />
       </main>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

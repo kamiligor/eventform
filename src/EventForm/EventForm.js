@@ -1,18 +1,19 @@
 import React, { Component } from 'react'
-import './EventForm.scss';
+import './EventForm.scss'
 import { Button, TextField } from '@material-ui/core'
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import { connect } from 'react-redux';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
+import DateFnsUtils from '@date-io/date-fns'
+import { connect } from 'react-redux'
 import { 
   saveEvent, 
   updateTextfieldValue, 
   updateDateValue, 
   updateFieldError,
   resetForm
-} from '../store/actions';
-import Spinner from '../Spinner/Spinner';
-import Info from '../Info/Info';
+} from '../store/actions'
+import Spinner from '../Spinner/Spinner'
+import Info from '../Info/Info'
+import propTypes from 'prop-types'
 
 class EventForm extends Component {
 
@@ -39,23 +40,23 @@ class EventForm extends Component {
   }
 
   handleEventDate = date => {
-    this.props.updateDateValue(date);
+    this.props.updateDateValue(date)
   }
 
   handleBlur = e => {
-    const name = e.target.name;
-    const value = e.target.value;
-    this.validateField(name, value);
+    const name = e.target.name
+    const value = e.target.value
+    this.validateField(name, value)
   }
 
   handleInput = e => {
-    const name = e.target.name;
-    const value = e.target.value;
-    this.props.updateTextfieldValue(name, value);
+    const name = e.target.name
+    const value = e.target.value
+    this.props.updateTextfieldValue(name, value)
   }
   
   handleSubmit = e => {
-    e.preventDefault();
+    e.preventDefault()
     if( this.validateAllFields() ) { 
       const eventData = {
         firstName: this.props.firstName.value,
@@ -63,29 +64,29 @@ class EventForm extends Component {
         email: this.props.email.value,
         eventDate: this.props.eventDate.value,
       }
-      this.props.saveEvent(eventData);
+      this.props.saveEvent(eventData)
     }
   }
   
   validateField = (fieldName, fieldValue = '') => {
-    const validationRules = this.config[fieldName].validationRules;
+    const validationRules = this.config[fieldName].validationRules
 
-    let error = false;
-    let msg = '';
+    let error = false
+    let msg = ''
 
     if ( validationRules.email && !this.emailIsValid(fieldValue)) {
-      error = true;
-      msg = 'Email is incorrect.';
+      error = true
+      msg = 'Email is incorrect.'
     }
 
     if( validationRules.required && fieldValue === '' ) {
-      error = true;
-      msg = 'This field is required.';
+      error = true
+      msg = 'This field is required.'
     }
 
-    this.props.updateFieldError(fieldName, error, msg);
+    this.props.updateFieldError(fieldName, error, msg)
     
-    return !error;
+    return !error
   }
 
   validateAllFields = () => {
@@ -95,13 +96,13 @@ class EventForm extends Component {
         pass = false
       }
     }
-    return pass;
+    return pass
   }
 
-  emailIsValid = email => /\S+@\S+\.\S+/.test(email);
+  emailIsValid = email => /\S+@\S+\.\S+/.test(email)
 
   render() {
-    const textFields = [];
+    const textFields = []
     for( let fieldName in this.config) {
       textFields.push(
         <TextField
@@ -120,45 +121,45 @@ class EventForm extends Component {
     }
     const errorMessage = this.props.error ? (
       <Info type="error">Something went wrong, please, try again later.</Info>
-      ) : null
+    ) : null
     return (
       !this.props.loaded ?
-      <form onSubmit={this.handleSubmit} className="EventForm">
-        <div className="EventForm__main">
-          {textFields}
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
-              disableToolbar
-              disablePast
-              autoOk
-              name="eventDate"
-              inputVariant="outlined"
-              format="dd/MM/yyyy"
-              id="date-picker-inline"
-              label="Event date"
-              value={this.props.eventDate.value}
-              onChange={this.handleEventDate}
-              error={this.props.eventDate.error}
-              helperText={this.props.eventDate.msg}
-            />
-          </MuiPickersUtilsProvider>
-        </div>
-        <div className="EventForm__footer">
-          {errorMessage}
-          <Button type="submit" variant="contained" color="primary">
-            Submit
-          </Button>
-          {this.props.loading ? <Spinner /> : null}
-        </div>
-      </form>
-      : 
-      <>
-        <Info type="success">
-          Thank You! You have been added to the guest list.
-        </Info>
-        <Button type="submit" color="primary" onClick={this.props.resetForm}>Back</Button>
-      </>
-    );
+        <form onSubmit={this.handleSubmit} className="EventForm">
+          <div className="EventForm__main">
+            {textFields}
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                disableToolbar
+                disablePast
+                autoOk
+                name="eventDate"
+                inputVariant="outlined"
+                format="dd/MM/yyyy"
+                id="date-picker-inline"
+                label="Event date"
+                value={this.props.eventDate.value}
+                onChange={this.handleEventDate}
+                error={this.props.eventDate.error}
+                helperText={this.props.eventDate.msg}
+              />
+            </MuiPickersUtilsProvider>
+          </div>
+          <div className="EventForm__footer">
+            {errorMessage}
+            <Button type="submit" variant="contained" color="primary">
+              Submit
+            </Button>
+            {this.props.loading ? <Spinner /> : null}
+          </div>
+        </form>
+        : 
+        <>
+          <Info type="success">
+            Thank You! You have been added to the guest list.
+          </Info>
+          <Button type="submit" color="primary" onClick={this.props.resetForm}>Back</Button>
+        </>
+    )
   }
 }
 
@@ -184,4 +185,19 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventForm);
+export default connect(mapStateToProps, mapDispatchToProps)(EventForm)
+
+EventForm.propTypes = {
+  updateDateValue: propTypes.func,
+  updateTextfieldValue: propTypes.func,
+  saveEvent: propTypes.func,
+  updateFieldError: propTypes.func,
+  resetForm: propTypes.func,
+  firstName: propTypes.object,
+  lastName: propTypes.object,
+  email: propTypes.object,
+  eventDate: propTypes.object,
+  error: propTypes.bool,
+  loaded: propTypes.bool,
+  loading: propTypes.bool,
+}

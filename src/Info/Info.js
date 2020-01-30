@@ -1,6 +1,6 @@
-import React from 'react';
-import './Info.scss';
-import PropTypes from 'prop-types';
+import React from 'react'
+import './Info.scss'
+import PropTypes from 'prop-types'
 
 const info = (props) => (
   <div className={`Info Info--${props.type}`}>
@@ -8,11 +8,11 @@ const info = (props) => (
       <p>{props.children}</p>
     </div>
   </div>
-);
+)
 
-export default info;
+export default info
 
 info.propTypes = {
   children: PropTypes.string,
-  type: PropTypes.oneOf(['success','error'])
+  type: PropTypes.oneOf(['success', 'error']),
 }

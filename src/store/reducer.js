@@ -1,4 +1,4 @@
-import * as actionTypes from './actionTypes';
+import * as actionTypes from './actionTypes'
 
 const initialState = {
   firstName: { value: '' },
@@ -7,29 +7,31 @@ const initialState = {
   eventDate: { value: Date() },
   loading: false,
   loaded: false,
-  error: '',
+  error: false,
 }
 
-const saveEventStart = (state, action) => {
+const saveEventStart = state => {
   return { 
     ...state, 
-    loading: true
+    loading: true,
+    error: false,
   }
 }
 
-const saveEventSuccess = (state, action) => {
+const saveEventSuccess = state => {
   return {
     ...state, 
     loading: false,
     loaded: true,
+    error: false,
   }
 }
 
-const saveEventFail = (state, action) => {
+const saveEventFail = state => {
   return { 
     ...state, 
     loading: false,
-    error: action.error
+    error: true,
   }
 }
 
@@ -69,17 +71,16 @@ const resetForm = () => {
 
 const reducer = (state = initialState, action) => {
   switch(action.type) {
-    case actionTypes.SAVE_EVENT_START: return saveEventStart(state, action);
-    case actionTypes.SAVE_EVENT_SUCCESS: return saveEventSuccess(state, action);
-    case actionTypes.SAVE_EVENT_FAIL: return saveEventFail(state, action);
-    case actionTypes.UPDATE_TEXTFIELD_VALUE: return updateTextfieldValue(state, action);
-    case actionTypes.UPDATE_DATE_VALUE: return updateDateValue(state, action);
-    case actionTypes.UPDATE_FIELD_ERROR: return updateFieldError(state, action);
-    case actionTypes.RESET_FORM: return resetForm();
+    case actionTypes.SAVE_EVENT_START: return saveEventStart(state)
+    case actionTypes.SAVE_EVENT_SUCCESS: return saveEventSuccess(state)
+    case actionTypes.SAVE_EVENT_FAIL: return saveEventFail(state)
+    case actionTypes.UPDATE_TEXTFIELD_VALUE: return updateTextfieldValue(state, action)
+    case actionTypes.UPDATE_DATE_VALUE: return updateDateValue(state, action)
+    case actionTypes.UPDATE_FIELD_ERROR: return updateFieldError(state, action)
+    case actionTypes.RESET_FORM: return resetForm()
 
-    default:
-      return state;
+    default: return state
   }
 }
 
-export default reducer;
+export default reducer
