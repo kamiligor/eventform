@@ -1,3 +1,10 @@
+# Event Registration App
+
+This is a sample react app that allows you to register for an event.
+It is connected to a simple REST API written in node.js. All data are saved in mongoDB.
+
+## CRA
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
