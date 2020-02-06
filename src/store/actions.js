@@ -28,7 +28,7 @@ export const saveEvent = eventData => {
         dispatch(saveEventSuccess(res.data))
       })
       .catch(error => {
-        if(error.response) {
+        if(error.response.data.errors) {
           const errors  = error.response.data.errors
           for( var err of errors) {
             let fieldName = err.param
