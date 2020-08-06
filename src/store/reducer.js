@@ -4,7 +4,7 @@ const initialState = {
   firstName: { value: '' },
   lastName: { value: '' },
   email: { value: '' },
-  eventDate: { value: Date() },
+  eventDate: { value: new Date() },
   loading: false,
   loaded: false,
   error: false,
